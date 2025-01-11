@@ -2,126 +2,78 @@ Assignment Report
 Question 1: Sales Analysis
 Part 1: Sales and Profitability Analysis
 Process:
-1.	Merged the List of Orders and Order Details datasets using Order ID as the key.
-2.	Performed aggregation to calculate:
-○	Total Sales (Amount) for each category.
-○	Average profit per order for each category.
-○	Total profit margin (profit as a percentage of total sales) for each category.
-Python Code:
-import pandas as pd
+    1.	Merged the List of Orders and Order Details datasets using Order ID as the key.
+    2.	Performed aggregation to calculate:
+        ○	Total Sales (Amount) for each category.
+        ○	Average profit per order for each category.
+        ○	Total profit margin (profit as a percentage of total sales) for each category.
 
-list_of_orders = pd.read_csv("List_of_Orders.csv")
-order_details = pd.read_csv("Order_Details.csv")
-
-merged_data = pd.merge(list_of_orders, order_details, on="Order ID")
-
-category_summary = merged_data.groupby("Category").agg(
-    Total_Sales=("Amount", "sum"),
-    Average_Profit=("Profit", "mean"),
-    Profit_Margin=("Profit", lambda x: (x.sum() / merged_data.loc[x.index, "Amount"].sum()) * 100)
-).reset_index()
 Results:
-Category	Total Sales (₹)	Average Profit (₹)	Total Profit Margin (%)
-Clothing	139,054	11.76	8.03
-Electronics	165,267	34.07	6.35
-Furniture	127,181	9.46	1.81
+    Category	Total Sales (₹)	Average Profit (₹)	Total Profit Margin (%)
+    Clothing	139,054	11.76	8.03
+    Electronics	165,267	34.07	6.35
+    Furniture	127,181	9.46	1.81
 Insights:
-●	Top-Performing Category: Clothing, with the highest profit margin (8.03%).
-●	Underperforming Category: Furniture, with the lowest profit margin (1.81%).
+    ●	Top-Performing Category: Clothing, with the highest profit margin (8.03%).
+    ●	Underperforming Category: Furniture, with the lowest profit margin (1.81%).
 Possible Reasons:
-●	Clothing likely benefits from effective pricing strategies or lower costs.
-●	Furniture's low margin could stem from high production/logistics costs or inefficient operations.
+    ●	Clothing likely benefits from effective pricing strategies or lower costs.
+    ●	Furniture's low margin could stem from high production/logistics costs or inefficient operations.
 Suggestions:
-●	Focus on improving cost efficiency and supply chain optimization in Furniture.
-●	Explore promotional campaigns for Electronics to leverage its higher average profit.
+    ●	Focus on improving cost efficiency and supply chain optimization in Furniture.
+    ●	Explore promotional campaigns for Electronics to leverage its higher average profit.
 ________________________________________
 Part 2: Target Achievement Analysis
 Process:
-1.	Filtered the Sales Target dataset for the Furniture category.
-2.	Calculated the month-over-month percentage change in target sales.
-Python Code:
-sales_target = pd.read_csv("Sales_Target.csv")
-
-sales_target["Target_Change_%"] = sales_target["Target"].pct_change() * 100
+    1.	Filtered the Sales Target dataset for the Furniture category.
+    2.	Calculated the month-over-month percentage change in target sales.
 
 Results:
-Month of Order Date	Target (₹)	Target Change (%)
-Apr-18	10,400	N/A
-May-18	10,500	0.96
-Jun-18	10,600	0.95
-Jul-18	10,800	1.89
-Aug-18	10,900	0.93
-Sep-18	11,000	0.92
-Oct-18	11,100	0.91
-Nov-18	11,300	1.80
-Dec-18	11,400	0.88
-Jan-19	11,500	0.88
-Feb-19	11,600	0.87
-Mar-19	11,800	1.72
+    Month of Order Date	Target (₹)	Target Change (%)
+    Apr-18	10,400	N/A
+    May-18	10,500	0.96
+    Jun-18	10,600	0.95
+    Jul-18	10,800	1.89
+    Aug-18	10,900	0.93
+    Sep-18	11,000	0.92
+    Oct-18	11,100	0.91
+    Nov-18	11,300	1.80
+    Dec-18	11,400	0.88
+    Jan-19	11,500	0.88
+    Feb-19	11,600	0.87
+    Mar-19	11,800	1.72
 Insights:
-●	Highest Increase: July 2018 (1.89%) and November 2018 (1.80%), likely reflecting seasonality or promotional events.
-●	Stable Periods: Most months show minor increases (0.87%-0.96%).
+    ●	Highest Increase: July 2018 (1.89%) and November 2018 (1.80%), likely reflecting seasonality or promotional events.
+    ●	Stable Periods: Most months show minor increases (0.87%-0.96%).
 Recommendations:
-●	Align targets with high-performing months (e.g., July and November).
-●	Investigate reasons for slower target growth in certain months to identify growth opportunities.
+    ●	Align targets with high-performing months (e.g., July and November).
+    ●	Investigate reasons for slower target growth in certain months to identify growth opportunities.
 ________________________________________
 Part 3: Regional Performance Insights
 Process:
-1.	Identified the top 5 states by order count using the List of Orders dataset.
-2.	Aggregated total sales and average profit for these states.
-Python Code:
-state_summary = merged_data.groupby("State").agg(
-    Order_Count=("Order ID", "count"),
-    Total_Sales=("Amount", "sum"),
-    Average_Profit=("Profit", "mean")
-).sort_values(by="Order_Count", ascending=False).head(5).reset_index()
+    1.	Identified the top 5 states by order count using the List of Orders dataset.
+    2.	Aggregated total sales and average profit for these states.
 
 Results:
-State	Order Count	Total Sales (₹)	Average Profit (₹)
-Madhya Pradesh	340	105,140	16.33
-Maharashtra	290	95,348	21.30
-Gujarat	87	21,058	5.34
-Delhi	74	22,531	40.36
-Rajasthan	74	21,149	16.99
+    State	Order Count	Total Sales (₹)	Average Profit (₹)
+    Madhya Pradesh	340	105,140	16.33
+    Maharashtra	290	95,348	21.30
+    Gujarat	87	21,058	5.34
+    Delhi	74	22,531	40.36
+    Rajasthan	74	21,149	16.99
 Insights:
-●	Top Region: Madhya Pradesh has the highest order count and total sales.
-●	Profitability Leader: Delhi leads in average profit with ₹40.36 per order.
-●	Profitability Disparities: Gujarat shows the lowest average profit (₹5.34).
+    ●	Top Region: Madhya Pradesh has the highest order count and total sales.
+    ●	Profitability Leader: Delhi leads in average profit with ₹40.36 per order.
+    ●	Profitability Disparities: Gujarat shows the lowest average profit (₹5.34).
 Recommendations:
-●	Focus improvement efforts on Gujarat to enhance profitability.
-●	Invest in Delhi to further capitalize on its high profitability.
-●	Expand marketing efforts in Madhya Pradesh and Maharashtra to sustain growth.
+    ●	Focus improvement efforts on Gujarat to enhance profitability.
+    ●	Invest in Delhi to further capitalize on its high profitability.
+    ●	Expand marketing efforts in Madhya Pradesh and Maharashtra to sustain growth.
 ________________________________________
 Final Suggestions:
-●	Optimize supply chain and reduce costs for Furniture.
-●	Leverage seasonal trends and historical performance to set realistic targets.
-●	Prioritize high-performing regions for investments and underperforming regions for targeted interventions.
-________________________________________
-Question 2: App Exploration
-Effective Features:
-1.	Automated Savings: Jar's automation for micro-savings simplifies financial planning for users.
-2.	User-Friendly Interface: The app design is intuitive, catering to diverse user groups.
-3.	Instant Investment in Gold: The process is quick and accessible, starting from as little as ₹10.
-4.	Real-Time Notifications: Keeps users updated on transactions and portfolio status.
-5.	Security Measures: Strong data protection and secure transaction protocols ensure trust.
-Improvement Areas:
-1.	Diverse Investment Options: Introduce mutual funds, stocks, or bonds to attract a wider audience.
-2.	Customizable Goals: Allow users to set personalized saving targets and track progress.
-3.	Educational Resources: Add tutorials and articles to improve financial literacy.
-4.	Social Sharing: Enable users to share milestones or refer friends with ease.
-5.	Customer Support: Improve response times and provide 24/7 assistance.
-________________________________________
-Question 3: Product Exploration
-New Business Opportunities for Jar:
-1.	Recurring Bill Payments: Automate utility payments to make recurring expenses hassle-free.
-2.	Health Insurance Integration: Offer small-ticket insurance plans alongside savings options.
-3.	P2P Lending Platform: Leverage user trust to create a secure peer-to-peer lending ecosystem.
-4.	Children's Savings Accounts: Introduce accounts tailored for minors with parental oversight.
-5.	Customized Wealth Planning: Provide AI-driven investment suggestions based on user goals.
-Leveraging Existing Strengths:
-●	Automation: Use existing algorithms to create seamless new service integrations.
-●	User-Friendly Design: Ensure new features are accessible without overwhelming users.
-●	Credibility: Build on trust to encourage adoption of advanced financial products.
+    ●	Optimize supply chain and reduce costs for Furniture.
+    ●	Leverage seasonal trends and historical performance to set realistic targets.
+    ●	Prioritize high-performing regions for investments and underperforming regions for targeted interventions.
 ________________________________________
 Prepared By: Mayank Kumar Singh
 
